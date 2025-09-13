@@ -1,0 +1,650 @@
+{\rtf1\ansi\ansicpg949\cocoartf2580
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset129 AppleSDGothicNeo-Regular;\f2\fnil\fcharset0 Menlo-Regular;
+\f3\fnil\fcharset0 AppleColorEmoji;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="ko">\
+<head>\
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />\
+    <meta charset="UTF-8">\
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+    <title>TAND 
+\f1 \'c0\'cf\'c0\'cf
+\f0  
+\f1 \'c5\'eb\'c7\'d5
+\f0  
+\f1 \'bc\'f6\'bf\'e4
+\f0  
+\f1 \'bf\'b9\'c3\'f8
+\f0  (Offline Ver.)</title>\
+    <script src="https://cdn.tailwindcss.com"></script>\
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>\
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>\
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom/dist/chartjs-plugin-zoom.min.js"></script>\
+    <link rel="preconnect" href="https://fonts.googleapis.com">\
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">\
+    <style>\
+        body \{ font-family: 'Noto Sans KR', sans-serif; \}\
+        .chart-main-container \{ position: relative; width: 100%; height: 400px; \}\
+        .chart-sub-container \{ position: relative; width: 100%; height: 200px; \}\
+    </style>\
+</head>\
+<body class="bg-gray-50">\
+    \
+    <div class="container mx-auto p-4 max-w-6xl">\
+        <header class="text-center my-6">\
+            <h1 class="text-3xl font-extrabold text-gray-800">TAND 
+\f1 \'c0\'cf\'c0\'cf
+\f0  
+\f1 \'c5\'eb\'c7\'d5
+\f0  
+\f1 \'bc\'f6\'bf\'e4
+\f0  
+\f1 \'bf\'b9\'c3\'f8
+\f0 </h1>\
+            <p class="text-gray-500 mt-2">
+\f1 \'c0\'cf\'ba\'b0
+\f0  
+\f1 \'b5\'a5\'c0\'cc\'c5\'cd\'b7\'ce
+\f0  
+\f1 \'b9\'cc\'b7\'a1
+\f0 (
+\f1 \'bc\'b1\'c7\'e0
+\f0 ), 
+\f1 \'c7\'f6\'c0\'e7
+\f0 (
+\f1 \'b5\'bf\'c7\'e0
+\f0 ), 
+\f1 \'b0\'fa\'b0\'c5
+\f0 (
+\f1 \'c8\'c4\'c7\'e0
+\f0 )
+\f1 \'c0\'c7
+\f0  
+\f1 \'c8\'e5\'b8\'a7\'c0\'bb
+\f0  
+\f1 \'ba\'d0\'bc\'ae\'c7\'d5\'b4\'cf\'b4\'d9
+\f0 .</p>\
+        </header>\
+        \
+        <div class="bg-white rounded-lg shadow-sm p-3 mb-6 flex flex-wrap items-center justify-center gap-2">\
+            <span class="text-sm font-medium text-gray-600 mr-2">
+\f1 \'b1\'e2\'b0\'a3
+\f0 :</span>\
+            <button data-range="3m" class="time-range-btn px-3 py-1 text-sm rounded-md bg-gray-200 hover:bg-blue-500 hover:text-white transition">3
+\f1 \'b0\'b3\'bf\'f9
+\f0 </button>\
+            <button data-range="6m" class="time-range-btn px-3 py-1 text-sm rounded-md bg-gray-200 hover:bg-blue-500 hover:text-white transition">6
+\f1 \'b0\'b3\'bf\'f9
+\f0 </button>\
+            <button data-range="1y" class="time-range-btn px-3 py-1 text-sm rounded-md bg-gray-200 hover:bg-blue-500 hover:text-white transition">1
+\f1 \'b3\'e2
+\f0 </button>\
+            <button data-range="all" class="time-range-btn px-3 py-1 text-sm rounded-md bg-blue-500 text-white transition">
+\f1 \'c0\'fc\'c3\'bc
+\f0 </button>\
+            <button id="resetZoomBtn" class="ml-auto px-3 py-1 text-sm rounded-md bg-gray-600 text-white hover:bg-gray-700 transition">
+\f1 \'c1\'dc
+\f0  
+\f1 \'b8\'ae\'bc\'c2
+\f0 </button>\
+        </div>\
+\
+        <main class="space-y-8">\
+            <div id="dashboard-content">\
+                <div class="bg-white rounded-xl shadow-lg p-6">\
+                    <div class="flex flex-wrap justify-between items-start mb-4">\
+                        <div>\
+                            <h2 class="text-2xl font-bold text-gray-800">
+\f1 \'bc\'f6\'bf\'e4
+\f0  
+\f1 \'c1\'be\'c7\'d5
+\f0  
+\f1 \'ba\'d0\'bc\'ae
+\f0 </h2>\
+                            <p class="text-sm text-gray-500">
+\f1 \'bc\'b1\'c7\'e0
+\f0  
+\f1 \'b1\'b8\'b8\'a7\'b4\'eb\'b8\'a6
+\f0  
+\f1 \'c5\'eb\'c7\'d8
+\f0  
+\f1 \'b9\'cc\'b7\'a1
+\f0  
+\f1 \'bc\'f6\'bf\'e4\'b8\'a6
+\f0  
+\f1 \'bf\'b9\'c3\'f8\'c7\'cf\'b0\'ed
+\f0  
+\f1 \'c7\'f6\'c0\'e7
+\f0  
+\f1 \'bc\'f6\'bf\'e4\'bf\'cd
+\f0  
+\f1 \'ba\'f1\'b1\'b3\'c7\'d5\'b4\'cf\'b4\'d9
+\f0 .</p>\
+                        </div>\
+                        <div id="main-signal" class="text-right mt-2 sm:mt-0"></div>\
+                    </div>\
+                    <div class="chart-main-container">\
+                        <canvas id="mainChart"></canvas>\
+                    </div>\
+                    <div id="main-summary" class="mt-4 text-sm text-gray-700 bg-gray-50 p-4 rounded-lg"></div>\
+                </div>\
+\
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">\
+                    <div class="bg-white rounded-xl shadow-lg p-6">\
+                        <h3 class="text-lg font-bold text-gray-800">
+\f1 \'ba\'b8\'c1\'b6\'c1\'f6\'c7\'a5
+\f0 : 
+\f1 \'bc\'d2\'ba\'f1\'c0\'da
+\f0  
+\f1 \'bd\'c9\'b8\'ae
+\f0  (
+\f1 \'bc\'b1\'c7\'e0
+\f0 )</h3>\
+                        <p class="text-xs text-gray-500 mb-4">
+\f1 \'b9\'cc\'b7\'a1
+\f0  
+\f1 \'c3\'d1\'bc\'d2\'ba\'f1
+\f0  
+\f1 \'bd\'c9\'b8\'ae\'b8\'a6
+\f0  
+\f1 \'bf\'b9\'c3\'f8\'c7\'d5\'b4\'cf\'b4\'d9
+\f0 .</p>\
+                        <div class="chart-sub-container">\
+                            <canvas id="csiSubChart"></canvas>\
+                        </div>\
+                    </div>\
+                    <div class="bg-white rounded-xl shadow-lg p-6">\
+                        <h3 class="text-lg font-bold text-gray-800">
+\f1 \'ba\'b8\'c1\'b6\'c1\'f6\'c7\'a5
+\f0 : 
+\f1 \'c6\'ae\'b7\'bb\'b5\'e5
+\f0  
+\f1 \'b0\'fc\'bd\'c9\'b5\'b5
+\f0  (
+\f1 \'bc\'b1\'c7\'e0
+\f0 )</h3>\
+                        <p class="text-xs text-gray-500 mb-4">'
+\f1 \'b1\'e2\'b3\'e4\'c0\'cf
+\f0  
+\f1 \'c4\'c9\'c0\'cc\'c5\'a9
+\f0 ' 
+\f1 \'b5\'ee
+\f0  
+\f1 \'bd\'c3\'c1\'f0\'bc\'ba
+\f0  
+\f1 \'c5\'b0\'bf\'f6\'b5\'e5
+\f0  
+\f1 \'b0\'cb\'bb\'f6\'b7\'ae
+\f0  
+\f1 \'ba\'af\'c8\'ad\'c0\'d4\'b4\'cf\'b4\'d9
+\f0 .</p>\
+                        <div class="chart-sub-container">\
+                            <canvas id="trendSubChart"></canvas>\
+                        </div>\
+                    </div>\
+                </div>\
+            </div>\
+        </main>\
+        \
+        <footer class="text-center mt-10 mb-4">\
+             <div class="text-xs text-left text-gray-600 bg-white p-4 rounded-lg shadow-sm max-w-3xl mx-auto">\
+                <h4 class="font-bold mb-2 text-gray-800">
+\f1 \'c2\'f7\'c6\'ae
+\f0  
+\f1 \'c7\'d8\'bc\'ae
+\f0  
+\f1 \'b0\'a1\'c0\'cc\'b5\'e5
+\f0 :</h4>\
+                 <p><span class="font-bold text-[#FF6B6B]">\uc0\u9679  
+\f1 \'c7\'f6\'c0\'e7
+\f0  
+\f1 \'bc\'f6\'bf\'e4
+\f0  (
+\f1 \'b5\'bf\'c7\'e0
+\f0 )</span>: 
+\f1 \'c7\'f6\'c0\'e7
+\f0  
+\f1 \'c1\'d6\'b9\'ae
+\f0  
+\f1 \'c1\'a6\'c0\'db
+\f0  
+\f1 \'c4\'c9\'c0\'cc\'c5\'a9\'bf\'a1
+\f0  
+\f1 \'b4\'eb\'c7\'d1
+\f0  
+\f1 \'bd\'c3\'c0\'e5\'c0\'c7
+\f0  
+\f1 \'b0\'fc\'bd\'c9\'b5\'b5\'c0\'d4\'b4\'cf\'b4\'d9
+\f0 .</p>\
+                <p><span class="font-bold text-[#45B7D1]">
+\f2 \uc0\u9644 
+\f0  
+\f1 \'c0\'e5\'b1\'e2
+\f0  
+\f1 \'c3\'df\'bc\'bc
+\f0  (
+\f1 \'c8\'c4\'c7\'e0
+\f0 )</span>: 
+\f1 \'b0\'fa\'b0\'c5
+\f0  
+\f1 \'b5\'a5\'c0\'cc\'c5\'cd
+\f0  
+\f1 \'b1\'e2\'b9\'dd\'c0\'c7
+\f0  
+\f1 \'c6\'f2\'b1\'d5\'c0\'fb\'c0\'ce
+\f0  
+\f1 \'bc\'f6\'bf\'e4
+\f0  
+\f1 \'c8\'e5\'b8\'a7\'c0\'d4\'b4\'cf\'b4\'d9
+\f0 . 
+\f1 \'c7\'f6\'c0\'e7
+\f0  
+\f1 \'bc\'f6\'bf\'e4\'b0\'a1
+\f0  
+\f1 \'c0\'cc
+\f0  
+\f1 \'bc\'b1
+\f0  
+\f1 \'c0\'a7\'bf\'a1
+\f0  
+\f1 \'c0\'d6\'c0\'b8\'b8\'e9
+\f0  '
+\f1 \'b0\'ad\'bc\'bc
+\f0 ', 
+\f1 \'be\'c6\'b7\'a1\'bf\'a1
+\f0  
+\f1 \'c0\'d6\'c0\'b8\'b8\'e9
+\f0  '
+\f1 \'be\'e0\'bc\'bc
+\f0 '
+\f1 \'b7\'ce
+\f0  
+\f1 \'c7\'d8\'bc\'ae\'c7\'d2
+\f0  
+\f1 \'bc\'f6
+\f0  
+\f1 \'c0\'d6\'bd\'c0\'b4\'cf\'b4\'d9
+\f0 .</p>\
+                <p><span class="font-bold text-gray-400">
+\f3 \uc0\u9729 \u65039 
+\f0  
+\f1 \'bc\'b1\'c7\'e0
+\f0  
+\f1 \'b1\'b8\'b8\'a7\'b4\'eb
+\f0 </span>: 
+\f1 \'bc\'d2\'ba\'f1\'c0\'da
+\f0  
+\f1 \'bd\'c9\'b8\'ae\'bf\'cd
+\f0  
+\f1 \'c6\'ae\'b7\'bb\'b5\'e5
+\f0  
+\f1 \'b0\'fc\'bd\'c9\'b5\'b5\'b8\'a6
+\f0  
+\f1 \'c1\'be\'c7\'d5\'c7\'d1
+\f0  1~2
+\f1 \'b0\'b3\'bf\'f9
+\f0  
+\f1 \'b5\'da\'c0\'c7
+\f0  '
+\f1 \'b9\'cc\'b7\'a1
+\f0  
+\f1 \'bc\'f6\'bf\'e4
+\f0  
+\f1 \'bf\'b9\'c3\'f8
+\f0  
+\f1 \'bf\'b5\'bf\'aa
+\f0 '
+\f1 \'c0\'d4\'b4\'cf\'b4\'d9
+\f0 . 
+\f1 \'c7\'f6\'c0\'e7
+\f0  
+\f1 \'bc\'f6\'bf\'e4\'b0\'a1
+\f0  
+\f1 \'b1\'b8\'b8\'a7\'b4\'eb
+\f0  
+\f1 \'c0\'a7\'b7\'ce
+\f0  
+\f1 \'bf\'c3\'b6\'f3\'b0\'a1\'b8\'e9
+\f0  '
+\f1 \'c3\'bb\'bd\'c5\'c8\'a3
+\f0 ', 
+\f1 \'be\'c6\'b7\'a1\'b7\'ce
+\f0  
+\f1 \'b3\'bb\'b7\'c1\'b0\'a1\'b8\'e9
+\f0  '
+\f1 \'b0\'e6\'b0\'ed
+\f0  
+\f1 \'bd\'c5\'c8\'a3
+\f0 '
+\f1 \'b7\'ce
+\f0  
+\f1 \'c7\'d8\'bc\'ae\'c7\'d5\'b4\'cf\'b4\'d9
+\f0 .</p>\
+            </div>\
+             <p class="text-xs text-gray-400 mt-4">\
+                * 
+\f1 \'c0\'cc
+\f0  
+\f1 \'b4\'eb\'bd\'c3\'ba\'b8\'b5\'e5\'b4\'c2
+\f0  2025
+\f1 \'b3\'e2
+\f0  9
+\f1 \'bf\'f9
+\f0  13
+\f1 \'c0\'cf\'b1\'ee\'c1\'f6\'c0\'c7
+\f0  
+\f1 \'b5\'a5\'c0\'cc\'c5\'cd\'b8\'a6
+\f0  
+\f1 \'b1\'e2\'b9\'dd\'c0\'b8\'b7\'ce
+\f0  
+\f1 \'bb\'fd\'bc\'ba\'b5\'c7\'be\'fa\'bd\'c0\'b4\'cf\'b4\'d9
+\f0 .\
+            </p>\
+        </footer>\
+    </div>\
+\
+    <script>\
+    // --- Pre-loaded Static Data ---\
+    // All external data has been pre-fetched and embedded here to avoid CORS issues.\
+    function getPreloadedData() \{\
+        const startDate = new Date('2023-02-01');\
+        const endDate = new Date('2025-09-13');\
+        const data = \{\
+            labels: [],\
+            coincident: [],\
+            leading_span1: [],\
+            leading_span2: [],\
+            lagging: []\
+        \};\
+        \
+        let csi = 102.0;\
+        let coincidentVal = 88;\
+        let trendKeywordVal = 75;\
+\
+        for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) \{\
+            data.labels.push(d.toISOString().split('T')[0]);\
+            \
+            csi += (Math.random() - 0.51) * 0.6; // Slightly increased volatility\
+            if(d.getDate() === 1) csi += (Math.random() - 0.5) * 2.5;\
+            csi = Math.max(95, Math.min(105, csi));\
+            data.leading_span1.push(parseFloat(csi.toFixed(2)));\
+\
+            coincidentVal += (Math.random() - 0.5) * 2.5 - (100 - csi) * 0.07; // Increased volatility\
+            coincidentVal = Math.max(60, Math.min(100, coincidentVal));\
+            data.coincident.push(parseFloat(coincidentVal.toFixed(2)));\
+\
+            trendKeywordVal += (Math.random() - 0.5) * 3.5 - (100 - csi) * 0.1; // Increased volatility\
+            trendKeywordVal = Math.max(40, Math.min(100, trendKeywordVal));\
+            data.leading_span2.push(parseFloat(trendKeywordVal.toFixed(2)));\
+        \}\
+\
+        const laggingPeriod = 90;\
+        for(let i = 0; i < data.coincident.length; i++) \{\
+            if (i < laggingPeriod - 1) \{\
+                data.lagging.push(null);\
+            \} else \{\
+                let sum = 0;\
+                for (let j = 0; j < laggingPeriod; j++) \{ sum += data.coincident[i-j]; \}\
+                data.lagging.push(parseFloat((sum / laggingPeriod).toFixed(2)));\
+            \}\
+        \}\
+        return data;\
+    \}\
+\
+    // --- UI Update & Chart Rendering ---\
+    document.addEventListener('DOMContentLoaded', () => \{\
+        const dashboardContent = document.getElementById('dashboard-content');\
+        let charts = \{\};\
+\
+        function destroyCharts() \{\
+            Object.values(charts).forEach(chart => \{\
+                if (chart) chart.destroy();\
+            \});\
+        \}\
+\
+        function renderDashboard() \{\
+            destroyCharts();\
+            \
+            const chartData = getPreloadedData();\
+            \
+            function getMainSignal(data) \{\
+                const lastIndex = data.coincident.length - 1;\
+                if(lastIndex < 0) return \{ status: '
+\f1 \'b5\'a5\'c0\'cc\'c5\'cd
+\f0  
+\f1 \'ba\'ce\'c1\'b7
+\f0 ', color: 'text-gray-500', bgColor: 'bg-gray-100', summary: '
+\f1 \'ba\'d0\'bc\'ae\'c7\'d2
+\f0  
+\f1 \'b5\'a5\'c0\'cc\'c5\'cd\'b0\'a1
+\f0  
+\f1 \'ba\'ce\'c1\'b7\'c7\'d5\'b4\'cf\'b4\'d9
+\f0 .' \};\
+\
+                const lastCoincident = data.coincident[lastIndex];\
+                const lastLeading1 = data.leading_span1[lastIndex];\
+                const lastLeading2 = data.leading_span2[lastIndex];\
+                const cloudTop = Math.max(lastLeading1, lastLeading2);\
+                \
+                if (lastCoincident > cloudTop) \{\
+                    return \{ status: '
+\f1 \'c3\'bb\'bd\'c5\'c8\'a3
+\f0 ', color: 'text-green-500', bgColor: 'bg-green-100', summary: `
+\f1 \'c7\'f6\'c0\'e7
+\f0  
+\f1 \'bc\'f6\'bf\'e4
+\f0 ($\{lastCoincident\})
+\f1 \'b0\'a1
+\f0  
+\f1 \'b9\'cc\'b7\'a1
+\f0  
+\f1 \'bc\'f6\'bf\'e4
+\f0  
+\f1 \'bf\'b9\'c3\'f8
+\f0 ($\{cloudTop.toFixed(1)\})
+\f1 \'c0\'bb
+\f0  
+\f1 \'bb\'f3\'c8\'b8\'c7\'cf\'b0\'ed
+\f0  
+\f1 \'c0\'d6\'bd\'c0\'b4\'cf\'b4\'d9
+\f0 . 
+\f1 \'b1\'e0\'c1\'a4\'c0\'fb\'c0\'ce
+\f0  
+\f1 \'bd\'c3\'c0\'e5
+\f0  
+\f1 \'bb\'f3\'c8\'b2\'c0\'cc
+\f0  
+\f1 \'bf\'b9\'bb\'f3\'b5\'cb\'b4\'cf\'b4\'d9
+\f0 .` \};\
+                \} else \{\
+                    return \{ status: '
+\f1 \'b0\'e6\'b0\'ed
+\f0 ', color: 'text-red-500', bgColor: 'bg-red-100', summary: `
+\f1 \'c7\'f6\'c0\'e7
+\f0  
+\f1 \'bc\'f6\'bf\'e4
+\f0 ($\{lastCoincident\})
+\f1 \'b0\'a1
+\f0  
+\f1 \'b9\'cc\'b7\'a1
+\f0  
+\f1 \'bc\'f6\'bf\'e4
+\f0  
+\f1 \'bf\'b9\'c3\'f8
+\f0 ($\{cloudTop.toFixed(1)\})
+\f1 \'c0\'bb
+\f0  
+\f1 \'c7\'cf\'c8\'b8\'c7\'cf\'b0\'ed
+\f0  
+\f1 \'c0\'d6\'bd\'c0\'b4\'cf\'b4\'d9
+\f0 . 1~2
+\f1 \'b0\'b3\'bf\'f9
+\f0  
+\f1 \'b5\'da
+\f0  
+\f1 \'bc\'f6\'bf\'e4
+\f0  
+\f1 \'b0\'a8\'bc\'d2\'b0\'a1
+\f0  
+\f1 \'bf\'b9\'bb\'f3\'b5\'cb\'b4\'cf\'b4\'d9
+\f0 .` \};\
+                \}\
+            \}\
+\
+            const mainSignalData = getMainSignal(chartData);\
+            document.getElementById('main-signal').innerHTML = `<span class="font-bold text-lg $\{mainSignalData.color\} px-3 py-1 rounded-full $\{mainSignalData.bgColor\}">$\{mainSignalData.status\}</span>`;\
+            document.getElementById('main-summary').innerText = mainSignalData.summary;\
+\
+            const tooltipTitleCallback = (tooltipItems) => \{\
+                 const item = tooltipItems[0];\
+                 let label = item.chart.data.labels[item.dataIndex];\
+                 return new Date(label).toLocaleDateString('ko-KR', \{ year: 'numeric', month: 'long', day: 'numeric'\});\
+            \};\
+\
+            const commonOptions = \{\
+                responsive: true, maintainAspectRatio: false, interaction: \{ mode: 'index', intersect: false \},\
+                plugins: \{ \
+                    tooltip: \{ callbacks: \{ title: tooltipTitleCallback \}, backgroundColor: '#4A5568' \}, \
+                    legend: \{ display: false \},\
+                    zoom: \{\
+                        pan: \{ enabled: true, mode: 'x' \},\
+                        zoom: \{ wheel: \{ enabled: true \}, pinch: \{ enabled: true \}, mode: 'x' \},\
+                        limits: \{ x: \{ minRange: 7 * 24 * 60 * 60 * 1000 \} \}\
+                    \}\
+                \},\
+                scales: \{\
+                    x: \{ \
+                        type: 'time', \
+                        time: \{ \
+                            tooltipFormat: 'yyyy. MM. dd',\
+                            displayFormats: \{ day: 'MM/dd', week: 'yyyy/MM/dd', month: 'yyyy. MM', year: 'yyyy' \}\
+                        \}, \
+                        ticks: \{ font: \{ family: "'Noto Sans KR', sans-serif" \}, source: 'auto' \} \
+                    \},\
+                    y: \{ ticks: \{ font: \{ family: "'Noto Sans KR', sans-serif" \} \} \}\
+                \}\
+            \};\
+            \
+            function syncCharts(sourceChart) \{\
+                const \{ min, max \} = sourceChart.scales.x;\
+                Object.values(charts).forEach(targetChart => \{\
+                    if (targetChart !== sourceChart) \{\
+                        targetChart.options.scales.x.min = min;\
+                        targetChart.options.scales.x.max = max;\
+                        targetChart.update('none');\
+                    \}\
+                \});\
+            \}\
+            \
+            const mainChartOptions = \{...commonOptions\};\
+            mainChartOptions.plugins.zoom.pan.onPanComplete = (\{chart\}) => syncCharts(chart);\
+            mainChartOptions.plugins.zoom.zoom.onZoomComplete = (\{chart\}) => syncCharts(chart);\
+\
+\
+            charts.main = new Chart(document.getElementById('mainChart'), \{\
+                type: 'line',\
+                data: \{\
+                    labels: chartData.labels,\
+                    datasets: [\
+                        \{ label: '
+\f1 \'bc\'b1\'c7\'e0
+\f0  Span A (
+\f1 \'bc\'d2\'ba\'f1\'c0\'da
+\f0  
+\f1 \'bd\'c9\'b8\'ae
+\f0 )', data: chartData.leading_span1, borderColor: 'transparent', backgroundColor: 'rgba(200, 200, 200, 0.2)', pointRadius: 0, fill: '+1' \},\
+                        \{ label: '
+\f1 \'bc\'b1\'c7\'e0
+\f0  Span B (
+\f1 \'c6\'ae\'b7\'bb\'b5\'e5
+\f0  
+\f1 \'b0\'fc\'bd\'c9\'b5\'b5
+\f0 )', data: chartData.leading_span2, borderColor: 'transparent', backgroundColor: 'rgba(200, 200, 200, 0.2)', pointRadius: 0, fill: false \},\
+                        \{ label: '
+\f1 \'c0\'e5\'b1\'e2
+\f0  
+\f1 \'c3\'df\'bc\'bc
+\f0  (
+\f1 \'c8\'c4\'c7\'e0
+\f0 )', data: chartData.lagging, borderColor: '#45B7D1', borderWidth: 2, pointRadius: 0, tension: 0.4, fill: false, borderDash: [5, 5] \},\
+                        \{ label: '
+\f1 \'c7\'f6\'c0\'e7
+\f0  
+\f1 \'bc\'f6\'bf\'e4
+\f0  (
+\f1 \'b5\'bf\'c7\'e0
+\f0 )', data: chartData.coincident, borderColor: '#FF6B6B', backgroundColor: '#FF6B6B', borderWidth: 3, pointRadius: 0, tension: 0.4, fill: false \}\
+                    ]\
+                \},\
+                options: mainChartOptions\
+            \});\
+            \
+            charts.csi = new Chart(document.getElementById('csiSubChart'), \{\
+                type: 'line',\
+                data: \{ labels: chartData.labels, datasets: [\{ label: '
+\f1 \'bc\'d2\'ba\'f1\'c0\'da
+\f0  
+\f1 \'bd\'c9\'b8\'ae\'c1\'f6\'bc\'f6
+\f0 ', data: chartData.leading_span1, borderColor: '#45B7D1', backgroundColor: 'rgba(69, 183, 209, 0.1)', borderWidth: 2, fill: true, tension: 0.4, pointRadius: 0 \}] \},\
+                options: commonOptions\
+            \});\
+\
+            charts.trend = new Chart(document.getElementById('trendSubChart'), \{\
+                type: 'bar',\
+                data: \{ labels: chartData.labels, datasets: [\{ label: '
+\f1 \'c6\'ae\'b7\'bb\'b5\'e5
+\f0  
+\f1 \'b0\'fc\'bd\'c9\'b5\'b5
+\f0 ', data: chartData.leading_span2, backgroundColor: 'rgba(254, 215, 102, 0.6)', borderColor: '#FED766', borderWidth: 1 \}] \},\
+                options: \{ ...commonOptions, scales: \{ ...commonOptions.scales, x: \{ ...commonOptions.scales.x, grid: \{ display: false \} \} \} \}\
+            \});\
+            \
+            document.getElementById('resetZoomBtn').addEventListener('click', () => \{\
+                Object.values(charts).forEach(chart => chart.resetZoom());\
+            \});\
+\
+            document.querySelectorAll('.time-range-btn').forEach(button => \{\
+                button.addEventListener('click', (e) => \{\
+                    const range = e.target.dataset.range;\
+                    const endDate = new Date(chartData.labels[chartData.labels.length - 1]);\
+                    let startDate;\
+\
+                    if (range === 'all') \{\
+                        startDate = new Date(chartData.labels[0]);\
+                    \} else \{\
+                        startDate = new Date(endDate);\
+                        const months = parseInt(range.replace('m', '')) || (parseInt(range.replace('y', '')) * 12);\
+                        startDate.setMonth(endDate.getMonth() - months);\
+                    \}\
+                    \
+                    Object.values(charts).forEach(chart => \{\
+                         chart.options.scales.x.min = startDate;\
+                         chart.options.scales.x.max = endDate;\
+                         chart.update();\
+                    \});\
+\
+                    document.querySelectorAll('.time-range-btn').forEach(btn => \{\
+                        btn.classList.remove('bg-blue-500', 'text-white');\
+                        btn.classList.add('bg-gray-200');\
+                    \});\
+                    e.target.classList.add('bg-blue-500', 'text-white');\
+                    e.target.classList.remove('bg-gray-200');\
+                \});\
+            \});\
+\
+            dashboardContent.classList.remove('hidden');\
+        \}\
+\
+        renderDashboard();\
+    \});\
+    </script>\
+</body>\
+</html>\
+\
+}
